@@ -1,12 +1,19 @@
-'use strict';
+'use strict'
 
-var mongo = require('mongodb');
-var assert = require('assert');
-var json2mongo = require('./');
+var mongo = require('mongodb')
+var assert = require('assert')
+var json2mongo = require('./')
 
 var query = {
   _id: { $oid: '123456789012345678901234' },
   created: { $date: '2013-01-01T00:00:00.000Z' },
+  ts: { $timestamp: { t: 1412180887, i: 1 } },
+  fkey1: { $ref: 'creators', $id: { $oid: '123456789012345678901234' }, $db: 'users' },
+  fkey2: { $ref: 'creators', $id: { $oid: '123456789012345678901234' } },
+  binary: { $binary: new Buffer('foo') },
+  minKey: { $minKey: 1 },
+  maxKey: { $maxKey: 1 },
+  numberLong: { $numberLong: '9223372036854775807' },
   foo: { $undefined: true },
   bar: { $regex: '[0-9]' },
   baz: { $regex: '[a-z]', $options: 'i' },
@@ -17,11 +24,18 @@ var query = {
   bool: true,
   obj: { foo: 123 },
   string: 'foo'
-};
+}
 
 var result = {
   _id: mongo.ObjectID(query._id.$oid),
   created: new Date('2013-01-01T00:00:00.000Z'),
+  ts: mongo.Timestamp(1412180887, 1),
+  fkey1: new mongo.DBRef(query.fkey1.$ref, mongo.ObjectID(query.fkey1.$id.$oid), query.fkey1.$db),
+  fkey2: new mongo.DBRef(query.fkey2.$ref, mongo.ObjectID(query.fkey2.$id.$oid)),
+  binary: mongo.Binary(new Buffer('foo')),
+  minKey: mongo.MinKey(),
+  maxKey: mongo.MaxKey(),
+  numberLong: mongo.Long('9223372036854775807'),
   foo: undefined,
   bar: /[0-9]/,
   baz: /[a-z]/i,
@@ -32,6 +46,6 @@ var result = {
   bool: true,
   obj: { foo: 123 },
   string: 'foo'
-};
+}
 
-assert.deepEqual(json2mongo(query), result);
+assert.deepEqual(json2mongo(query), result)
