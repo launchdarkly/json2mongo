@@ -1,11 +1,11 @@
 {
   "name": "json2mongo",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A MongoDB Extended JSON conversion utility which converts Strict Mode syntax to JavaScript Mode",
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "standard && node test.js"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,20 @@
     "convert",
     "transform"
   ],
-  "author": "Thomas Watson Steen <w@tson.dk>",
+  "author": "Thomas Watson Steen <w@tson.dk> (https://twitter.com/wa7son)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/watson/json2mongo/issues"
   },
   "dependencies": {
-    "mongodb": "^1.4.0"
-  }
+    "mongodb": "^2.2.11"
+  },
+  "devDependencies": {
+    "standard": "^8.5.0"
+  },
+  "homepage": "https://github.com/watson/json2mongo#readme",
+  "coordinates": [
+    55.6810427,
+    12.5643302
+  ]
 }
